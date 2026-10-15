@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "dev.fogxy.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.fogxy.mixin.FogxyMixinPlugin",
+  "client": [
+    "MixinAsyncNodeManager",
+    "MixinLevelRenderer",
+    "MixinNodeManager",
+    "MixinSodiumChunkFog",
+    "MixinSodiumConfigBuilderNew",
+    "MixinSodiumOptionsGUI",
+    "MixinSodiumShaderParser",
+    "MixinSodiumShaderParserNew",
+    "MixinVoxyFullscreenBlit",
+    "MixinVoxyRenderSystem",
+    "MixinVoxyShaderLoader"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

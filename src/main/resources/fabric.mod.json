@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "fogxy",
+  "version": "${version}",
+  "name": "Fogxy",
+  "description": "Fogxy is a mod that aims to provide world-wrapped fog for the voxy LOD mod.",
+  "icon": "assets/fogxy/icon.png",
+  "authors": [
+    "Jitter"
+  ],
+  "contact": {
+    "issues": "https://github.com/jitterdev/fogxy/issues",
+    "sources": "https://github.com/jitterdev/fogxy"
+  },
+  "license": "LGPL-3.0-or-later",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.fogxy.FogxyClient"
+    ]
+  },
+  "mixins": [
+    "fogxy.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "${minecraft_dependency}",
+    "java": ">=${java_version}",
+    "sodium": "*",
+    "voxy": "*"
+  }
+}
