@@ -1,4 +1,4 @@
-# Fogxy
+![Fogxy banner](assets/banner.png)
 
 Fogxy is a mod that aims to provide world-wrapped fog for the voxy LOD mod. Instead of cylindrical fog around the camera, fog will hug the boundary of the world and cover any holes.
 
@@ -66,3 +66,7 @@ Fogxy is licensed under the GNU Lesser General Public License, version 3 or late
 ## Disclaimer
 
 **Fogxy is alpha software.** It hooks into voxy's renderer, rewrites the fog shaders, and does moderately invasive changes to Sodium. Instability is likely, and to be expected. It has not yet been tested with other mods, and anything else that touches voxy or Sodium's rendering may conflict with it. Keep a backup of config/fogxy.json. Crashes and visual glitches or oddities are both on the table.
+
+## Credits
+
+Banner typeface: Alagard by Pix3M.
