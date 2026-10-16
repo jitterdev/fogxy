@@ -1,4 +1,4 @@
-![Fogxy banner](assets/banner.png)
+![Fogxy banner](assets/banner.png?v=eb25546)
 
 Fogxy is a mod that aims to provide world-wrapped fog for the voxy LOD mod. Instead of cylindrical fog around the camera, fog will hug the boundary of the world and cover any holes.
 
