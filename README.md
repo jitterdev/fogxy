@@ -2,11 +2,24 @@
 
 Fogxy is a mod that aims to provide world-wrapped fog for the voxy LOD mod. Instead of cylindrical fog around the camera, fog will hug the boundary of the world and cover any holes.
 
-Fogxy supports Fabric across Minecraft 1.21.1, 1.21.6-1.21.8, 1.21.9-1.21.10, 1.21.11, 26.1-26.1.2, and 26.2 (voxy v0.2.4-alpha through v0.2.19-beta and Sodium v0.6 through v0.9).
+## Compatibility
 
-All jars (when ran on NeoForge) have a required dependency on Sinytra Connector. NeoForge is explicitly supported through Sinytra Connector, but there is no separate NeoForge build due to voxy itself not shipping on NeoForge.
+Fogxy supports Fabric across Minecraft 1.21.1, 1.21.6-1.21.8, 1.21.9-1.21.10, 1.21.11, 26.1-26.1.2, and 26.2, covering voxy v0.2.4-alpha through v0.2.19-beta and Sodium v0.6 through v0.9.
+
+| Minecraft | Loader | Voxy | Sodium |
+| --- | --- | --- | --- |
+| 1.21.1 | Fabric | v0.2.14-alpha | 0.6.13 or newer |
+| 1.21.1 | NeoForge via Sinytra Connector and Roxy | v0.2.16-beta | 0.8.13 |
+| 1.21.6 - 1.21.8 | Fabric | v0.2.5-alpha | 0.7.x |
+| 1.21.9 - 1.21.10 | Fabric | v0.2.9-alpha | 0.7.3 |
+| 1.21.11 | Fabric | v0.2.16-beta | 0.8.4, 0.8.6, 0.8.7, 0.8.11, 0.8.12 |
+| 26.1 - 26.1.2 | Fabric | v0.2.18-beta | 0.9.1 |
+| 26.2 | Fabric | v0.2.19-beta | 0.9.1 or 0.9.2 |
+
+All jars (when ran on NeoForge) have a required dependency on Sinytra Connector. There is no separate NeoForge build, because voxy itself does not ship on NeoForge; however, you should be able to load all Fabric builds on NeoForge with Sinytra Connector.
 
 **You have permission to report issues that arise from using Sinytra Connector with Fogxy to this repository**.
+
 ## How it works
 
 Fogxy figures out where your loaded terrain actually ends by looking down from above, using voxy’s own traversal so that empty sections aren’t counted as terrain. It then rewrites both fog shaders (voxy’s LOD fog and Sodium’s terrain fog) so all pixels check their world position against that map before deciding how much fog to apply.
