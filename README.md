@@ -50,23 +50,25 @@ The project builds for several versions using [Stonecutter](https://stonecutter.
 ./gradlew build                  # every version; jars land in build/libs
 ```
 
-The `stonecutterSwitchTo<version>` change which version is marked as active in `stonecutter.gradle.kts`, which decides how the shared `src/` code in your working files and in your IDE. To run whichever version is currently active, use:
+The `stonecutterSwitchTo<version>` change which version is marked as active in `stonecutter.gradle.kts`, which decides how the shared `src/` code in your working files and in your IDE look. To run whichever version is currently active, use:
 
 ```sh
 ./gradlew runClient
 ```
 
-Runs are isolated by version in `run/<version>/`. This means a newer client will never upgrade an older world or overwrite its `options.txt`. All versions open on the main menu until you create a world, in which they will quick-join into it on load.
+Runs are isolated by version in `run/<version>/`. All versions open on the main menu until you create a world, in which they will quick-join into it on load.
 
-Voxy is pulled at runtime from the Modrinth Maven per version by `voxy_version` in `versions/<version>/gradle.properties`, and staged into `run/<version>/mods/` by the `installVoxy` task before the client starts. It has to be a jar on disk rather than a classpath dependency. Fabric Loader only unwraps a mod's nested jar-in-jars it finds as files. Voxy bundles RocksDB, LMDB and friends that way. This means loading voxy as a classpath causes a `NoClassDefFoundError: org/rocksdb/RocksDBException`.
+Voxy is pulled at runtime from the Modrinth Maven per version by `voxy_version` in `versions/<version>/gradle.properties`, and staged into `run/<version>/mods/` by the `installVoxy` task before the client starts. It has to be a jar on disk rather than a classpath dependency. Fabric Loader only unwraps a mod's nested jar-in-jars it finds as files. Voxy bundles RocksDB, LMDB and friends that way. This means loading voxy as a classpath would cause a `NoClassDefFoundError: org/rocksdb/RocksDBException`.
 
-Note that **1.21.1 has no voxy release on the Modrinth Maven**, so for that node you drop your own jar at `libs/voxy.jar` and `installVoxy` stages it the same way. Also, a jar in `libs/` takes precedence over the Modrinth release on any node, which is very useful when testing a local voxy build.
+Note that **1.21.1 has no voxy release on the Modrinth Maven**, so for that node you drop your own jar at `libs/voxy.jar` and `installVoxy` stages it the same way.
+
+A jar in `libs/` takes precedence over the Modrinth release on any node, which is very useful when testing a local voxy build.
 
 Voxy requires one exact Sodium version, so `voxy_version` and `sodium_version` have to be changed together. `reeses_sodium_options_version` also has to be a build that accepts whichever Sodium you pinned.
 
 The 2.2.4 builds of Reese's Sodium Options lock Sodium to a single version (`=0.8.14`, `=0.9.2`). On 1.21.11 and 26.1.2, voxy rejects the newest Sodium (`=0.8.12` and `0.9.1` respectively). These nodes use the 2.2.3 builds instead.
 
-A mismatch will not cause a compile error, but a `HARD_DEP_NO_CANDIDATE` in the run log. Check the log whenever you bump either version.
+A version mismatch will not cause a compile error, but a `HARD_DEP_NO_CANDIDATE` in the run log. Check the log whenever you bump either version.
 
 ## License
 
