@@ -20,12 +20,6 @@ All jars (when ran on NeoForge) have a required dependency on Sinytra Connector.
 
 **You have permission to report issues that arise from using Sinytra Connector with Fogxy to this repository**.
 
-## How it works
-
-Fogxy determines the actual boundaries of loaded terrain by viewing it from above, using voxy's own traversal mechanism so blank areas are not counted as terrain. It then rewrites two fog shaders (voxy's LOD fog and Sodium's terrain fog) so that all pixels check their world position against the map before deciding the amount of fog to apply.
-
-Holes surrounded by loaded terrain require special handling. The map distinguishes between two types of gaps: internal holes (where fog boundaries are unreachable because these cells are undrawn or only coarsely drawn), and coarser, ring-shaped areas around the outer edges of the terrain. If voxy doesn't draw anything on an internal hole, the LOD composite shader tracks the line of sight along the hole's coverage in world space, staying below a configurable top height, and paints solid fog on the first inside cell the ray hits.
-
 ## Configuration
 
 `config/fogxy.json`, also editable from the **Fog** tab in Sodium's video settings.
@@ -56,7 +50,7 @@ The project builds for several versions using [Stonecutter](https://stonecutter.
 ./gradlew build                  # every version; jars land in build/libs
 ```
 
-The `stonecutterSwitchTo<version>` tasks don't start the game. All they do is change which version is marked as active in `stonecutter.gradle.kts`. That setting decides how the shared `src/` code looks, meaning which version-specific comments are uncommented, both in your working files and in your IDE. To run whichever version is currently active, use:
+The `stonecutterSwitchTo<version>` change which version is marked as active in `stonecutter.gradle.kts`, which decides how the shared `src/` code in your working files and in your IDE. To run whichever version is currently active, use:
 
 ```sh
 ./gradlew runClient
@@ -64,17 +58,19 @@ The `stonecutterSwitchTo<version>` tasks don't start the game. All they do is ch
 
 Runs are isolated by version in `run/<version>/`. This means a newer client will never upgrade an older world or overwrite its `options.txt`. All versions open on the main menu until you create a world, in which they will quick-join into it on load.
 
-Voxy is pulled at runtime from the Modrinth Maven per version by `voxy_version` in `versions/<version>/gradle.properties`, and staged into `run/<version>/mods/` by the `installVoxy` task before the client starts. It has to be a jar on disk rather than a classpath dependency, as Loader only unwraps a mod's nested jars for jars it finds as files, and voxy bundles RocksDB, LMDB and friends that way. This means loading voxy as a classpath causes a `NoClassDefFoundError: org/rocksdb/RocksDBException`. Note that **1.21.1 has no voxy release on the Modrinth Maven**, so for that node you drop your own jar at `libs/voxy.jar` and `installVoxy` stages it the same way. A jar in `libs/` takes precedence over the Modrinth release on any node, which is very useful when testing a local voxy build.
+Voxy is pulled at runtime from the Modrinth Maven per version by `voxy_version` in `versions/<version>/gradle.properties`, and staged into `run/<version>/mods/` by the `installVoxy` task before the client starts. It has to be a jar on disk rather than a classpath dependency. Fabric Loader only unwraps a mod's nested jar-in-jars it finds as files. Voxy bundles RocksDB, LMDB and friends that way. This means loading voxy as a classpath causes a `NoClassDefFoundError: org/rocksdb/RocksDBException`.
+
+Note that **1.21.1 has no voxy release on the Modrinth Maven**, so for that node you drop your own jar at `libs/voxy.jar` and `installVoxy` stages it the same way. Also, a jar in `libs/` takes precedence over the Modrinth release on any node, which is very useful when testing a local voxy build.
 
 Voxy requires one exact Sodium version, so `voxy_version` and `sodium_version` have to be changed together. `reeses_sodium_options_version` also has to be a build that accepts whichever Sodium you pinned.
 
 The 2.2.4 builds of Reese's Sodium Options lock Sodium to a single version (`=0.8.14`, `=0.9.2`). On 1.21.11 and 26.1.2, voxy rejects the newest Sodium (`=0.8.12` and `0.9.1` respectively). These nodes use the 2.2.3 builds instead.
 
-A mismatch won't cause a compile error. It shows up as `HARD_DEP_NO_CANDIDATE` in the run log, so check the log whenever you bump either version.
+A mismatch will not cause a compile error, but a `HARD_DEP_NO_CANDIDATE` in the run log. Check the log whenever you bump either version.
 
 ## License
 
-Fogxy is licensed under the GNU Lesser General Public License, version 3 or later. `LICENSE` holds the LGPL-3.0 text, and `COPYING` holds the GNU General Public License version 3 that it incorporates.
+Fogxy is licensed under the GNU Lesser General Public License, version 3 or later. `LICENSE` holds the LGPL-3.0 text, and `COPYING` holds GNU General Public License version 3 it incorporates.
 
 ## Disclaimer
 
