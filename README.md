@@ -42,10 +42,9 @@ All jars (when ran on NeoForge) have a required dependency on Sinytra Connector.
 
 ## Development
 
-[Stonecutter](https://stonecutter.kikugie.dev/) is used to build the mod for multiple Minecraft versions. Each Minecraft version has a dedicated subproject
+[Stonecutter](https://stonecutter.kikugie.dev/) is used to build the mod for multiple Minecraft versions. Each Minecraft version has a dedicated subproject.
 
-To change which version is considered the “current” version (affects e.g. how code in the shared src/ folder is presented in your IDE, etc.), run:
-
+Tasks can be run against specific versions without first having to switch to that version, as with any other Stonecutter project:
 
 ```sh
 ./gradlew :1.21.1:runClient      # dev client for 1.21.1
@@ -53,27 +52,28 @@ To change which version is considered the “current” version (affects e.g. ho
 ./gradlew build                  # every version; jars land in build/libs
 ```
 
-Tasks can be run against specific versions without first having to switch to that version, as with any other Stonecutter project:
+To change which version is considered the "current" version (affects e.g. how code in the shared `src/` folder is presented in your IDE, etc.), run:
+
 ```sh
 ./gradlew stonecutterSwitchTo<version>
 ```
 
 To run the currently selected version, run:
+
 ```sh
 ./gradlew runClient
 ```
 
-Game instances are stored in run/<version>/. All of them will start at the title screen, and if a world is present will immediately join that world on load.
+Game instances are stored in `run/<version>/`. All of them will start at the title screen, and if a world is present will immediately join that world on load.
 
-Voxy doesn’t have releases for 1.21.1 on their Modrinth Maven. For those versions we manually put a Voxy jar at libs/voxy.jar. For all other versions the voxy_version in versions/<version>/gradle.properties is used to download the jar from their maven. In both cases installVoxy copies the jar into run/<version>/mods/ before launching the client. This needs to be a jar on disk (and not on the classpath) because that’s the only way Fabric Loader will extract Voxy’s nested jars (RocksDB, LMDB, etc.). If you try putting Voxy on the classpath instead you’ll get NoClassDefFoundError: org/rocksdb/RocksDBException.
+Voxy doesn't have releases for 1.21.1 on their Modrinth Maven. For those versions we manually put a Voxy jar at `libs/voxy.jar`. For all other versions the `voxy_version` in `versions/<version>/gradle.properties` is used to download the jar from their maven. In both cases `installVoxy` copies the jar into `run/<version>/mods/` before launching the client. This needs to be a jar on disk (and not on the classpath) because that's the only way Fabric Loader will extract Voxy's nested jars (RocksDB, LMDB, etc.). If you try putting Voxy on the classpath instead you'll get `NoClassDefFoundError: org/rocksdb/RocksDBException`.
+
 - voxy has an exact dep on sodium, so those two versions need to be updated together
 - Reese's Sodium Options also has to be compatible with that version of sodium
-- if you update either sodium or voxy and forget to check if the other needs an update too, you won't get a build error, but a HARD_DEP_NO_CANDIDATE error in-game, so check the logs after updating!
-- note that on 1.21.11 and 26.1.2, voxy does not support the latest version of sodium (so we use =0.8.12 and 0.9.1 for sodium there). on those versions, we also need to downgrade Reese's Sodium Options to 2.2.3, since the 2.2.4 versions strictly dep on one specific version of sodium (=0.8.14, =0.9.2)
-
+- if you update either sodium or voxy and forget to check if the other needs an update too, you won't get a build error, but a `HARD_DEP_NO_CANDIDATE` error in-game, so check the logs after updating!
+- note that on 1.21.11 and 26.1.2, voxy does not support the latest version of sodium (so we use `=0.8.12` and `0.9.1` for sodium there). on those versions, we also need to downgrade Reese's Sodium Options to 2.2.3, since the 2.2.4 versions strictly dep on one specific version of sodium (`=0.8.14`, `=0.9.2`)
 
 A jar in `libs/` takes precedence over the Modrinth release on any node, which is very useful when testing a local voxy build.
-
 
 ## License
 

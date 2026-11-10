@@ -17,9 +17,3 @@ stonecutter parameters {
         replace("getMainCamera()", "mainCamera()")
     }
 }
-
-tasks.register("runActiveClient") {
-    group = "stonecutter"
-    description = "Runs the client of the active Stonecutter version"
-    dependsOn(provider { ":${stonecutter.current!!.project}:runClient" })
-}
